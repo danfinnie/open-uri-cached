@@ -39,7 +39,7 @@ module OpenURI
         f = File.exists?(filename) ? StringIO.new(File.open(filename, "rb") { |f| f.read }) : nil
 
         # Add meta accessors
-        if meta && f
+        if meta && f && f[:key] == key
           f.instance_variable_set(:"@meta", meta)
           
           def f.meta
@@ -83,6 +83,7 @@ module OpenURI
         if value.respond_to?(:meta)
           filename_meta = "#{filename}.meta"
           meta = value.meta
+					meta[:key] = key
           meta[:status] = value.status if value.respond_to?(:status)
           meta[:content_type] = value.content_type if value.respond_to?(:content_type)
           meta[:base_uri] = value.base_uri if value.respond_to?(:base_uri)
