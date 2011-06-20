@@ -4,7 +4,7 @@ require 'digest/sha1'
 module OpenURI
   class << self
     alias original_open_uri open_uri #:nodoc:
-    def open_uri(uri, *rest, &block)
+    def open_uri(uri, *rest)
       response = Cache.get(uri.to_s) ||
                  Cache.set(uri.to_s, original_open_uri(uri, *rest))
 
